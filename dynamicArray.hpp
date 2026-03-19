@@ -25,7 +25,7 @@ public:
     // Operacje dodawania elementy na różnych pozycjach 
     void addStart(int value);            // Dodawanie na początku
     void addEnd(int value);              // Dodawanie na końca
-    void addAt(int index);      // Dodawanie w losowym miejscu
+    void addAt(int index, int value);      // Dodawanie w losowym miejscu
 
     // Operacja wyszukiwania wartości w strukturze
     int find(int value);        // Zwraca indeks znalezionego elementu -1 

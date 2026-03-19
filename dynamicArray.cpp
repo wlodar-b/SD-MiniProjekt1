@@ -49,6 +49,62 @@ void DynamicArray::addStart(int value) {
     size++;
 }
 
+// Dodawanie w dowolnym miejscu (losowa pozycja): O(n) 
+void DynamicArray::addAt(int index, int value) {
+    // Sprawdzenie, czy indeks jest poprawny
+    if (index < 0 || index > size) {
+        std::cout << "Bledny indeks!" << std::endl;
+        return;
+    }
+
+    // Jeśli tablica jest pełna, zwiększamy ją dwukrotnie
+    if (size == capacity) {
+        resize();
+    }
+
+    // Przesunięcie elementów w prawo od podanego indeksu
+    for (int i = size; i > index; i--) {
+        array[i] = array[i - 1];
+    }
+
+    array[index] = value; // Wstawienie nowej wartości
+    size++;                      // Zwiększenie licznika elementów    
+}
+
+// Usuwanie z początku: O(n)
+void DynamicArray::removeStart() {
+    if (size > 0) {
+        // Przesunięcie wszystkich elementów w lewo o jedną pozycję
+        for (int i = 0; i < size; i++) {
+            array[i] = array[i +1];
+        }
+        size--;                 // Zmniejszenie rozmiaru
+    }
+}
+
+// Usuwanie z dowolnego miejsca (losowa pozycja): O(n)
+void DynamicArray::removeAt(int index) {
+    // Sprawdzenie poprawności indeksu
+    if (index < 0 || index >= size) {
+        std::cout << "Bledny indeks!" << std::endl;
+        return;
+    }
+
+    // Przesunięcie elementów w lewo, aby "zakryć" usuwany element
+    for (int i = index; i < size - 1; i++) {
+        array[i] = array[i + 1];
+    }
+    size--;                 // Zmniejszenie rozmiaru
+}
+
+// Metoda czyszcząca strukturę: wymagana przy opcji "zbuduj z pliku"
+void DynamicArray::clear() {
+    delete[] array;             // Zwolnienie pamięci
+    size = 0;                   // Resetowanie liczników
+    capacity = 1;               // Resetowanie pojemności
+    array = new int[capacity];  // Alokacja nowej startowej tablicy
+}
+
 // Usuwanie z końca: Operacja O(1)
 void DynamicArray::removeEnd() {
     if (size > 0) {
