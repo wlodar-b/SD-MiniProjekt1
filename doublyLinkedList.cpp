@@ -27,17 +27,25 @@ void DoublyLinkedList::addEnd(int value) {
 }
 
 void DoublyLinkedList::addAt(int index, int value) {
-    Node* newNode = new Node(value);
-    Node* current = head;
-    for (int i = 0; i < index; i++) {
-        current = current->next;
+    if (index < 0 || index > size) return;
+
+    if (index == 0) {
+        addStart(value);
+    } else if (index == size) {
+        addEnd(value);
+    } else {
+        Node* newNode = new Node(value);
+        Node* current = head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+        Node* a = current->prev;
+        a->next = newNode;
+        newNode->prev = a;
+        newNode->next = current;
+        current->prev = newNode;
+        size++;
     }
-    Node* a = current->prev;
-    a->next = newNode;
-    current->prev = newNode;
-    newNode->next = current;
-    newNode->prev = a;
-    size++;
 }
 
 void DoublyLinkedList::removeStart() {
@@ -59,6 +67,10 @@ void DoublyLinkedList::removeEnd() {
 }
 
 void DoublyLinkedList::removeAt(int index) {
+    if (index < 0 || index > size) return;
+    if (index == size - 1) removeEnd();
+    else if (index == 0) removeStart();
+    else {
     Node* current = head;
     for (int i = 0; i < index; i++) {
         current = current->next;
@@ -69,4 +81,5 @@ void DoublyLinkedList::removeAt(int index) {
     b->prev = a;
     delete current;
     size--;
+    }
 }
