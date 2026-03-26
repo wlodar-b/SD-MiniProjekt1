@@ -1,4 +1,5 @@
 #include "menu.hpp"
+#include "utils.hpp"
 #include <iostream>
 #include <string>
 
@@ -36,7 +37,8 @@ void Menu::menuArray() {
         std::cout << "2. Usun (poczatek/koniec/losowe)" << std::endl;
         std::cout << "3. Dodaj (poczatek/koniec/losowe)" << std::endl;
         std::cout << "4. Znajdz" << std::endl;
-        std::cout << "5. Wyswietl" << std::endl;
+        std::cout << "5. Utworz losowo" << std::endl;
+        std::cout << "6. Wyswietl" << std::endl;
         std::cout << "0. Powrot" << std::endl;
         std::cout << "Wybor: ";
         std::cin >> choice;
@@ -78,13 +80,16 @@ void Menu::menuArray() {
                 if (index != -1) std::cout << "Znaleziono na indeksie: " << index << std::endl;
                 else std::cout << "Nie znaleziono!" << std::endl;
                 break;
-            case 5:
+            case 5: {
                 int size;
                 std::cout << "Podaj wielkosc struktury: "; 
                 std::cin >> size; 
                 array.clear();
-                // Tutaj petla generujaca 'size' losowych elementow 4-bajtowych 
+                for (int i = 0; i < size; i++) {
+                    array.addEnd(generateRandom4ByteNumber());
+                }
                 break;
+            }
             case 6:
                 array.display(); 
                 break;
@@ -147,11 +152,15 @@ void Menu::menuSinglyList() {
                 if (index != -1) std::cout << "Znaleziono na indeksie: " << index << std::endl;
                 else std::cout << "Nie znaleziono!" << std::endl;
                 break;        
-            case 5:
+            case 5: {
                 int size;
                 std::cout << "Podaj wielkosc struktury: "; std::cin >> size;
                 singlyList.clear();
+                for (int i = 0; i < size; i++) {
+                    singlyList.addEnd(generateRandom4ByteNumber());
+                }
                 break;
+            }
             case 6:
                 singlyList.display();
                 break;
@@ -181,7 +190,7 @@ void Menu::menuDoublyLinkedList() {
             case 1:
                 std::cout << "Podaj nazwe pliku: ";
                 std::cin >> fileName;
-                // doublyLinkedList.clear();      // Obowiazkowe czysczenie przed wczytaniem
+                doublyLinkedList.clear();      // Obowiazkowe czysczenie przed wczytaniem
                 break;
             case 2:
                 std::cout << "1.Poczatek, 2.Koniec, 3.Losowe miejsce: ";
@@ -209,18 +218,22 @@ void Menu::menuDoublyLinkedList() {
             case 4:
                 std::cout << "Szukana wartosc: "; 
                 std::cin >> value;
-                // index = doublyLinkedList.find(value);
+                index = doublyLinkedList.find(value);
                 if (index != -1) std::cout << "Znaleziono na indeksie: " << index << std::endl;
                 else std::cout << "Nie znaleziono!" << std::endl;
                 break;        
-            case 5:
+            case 5: {
                 int size;
                 std::cout << "Podaj wielkosc struktury: "; 
                 std::cin >> size;
-                // doublyLinkedList.clear();
+                doublyLinkedList.clear();
+                for (int i = 0; i < size; i++) {
+                    doublyLinkedList.addEnd(generateRandom4ByteNumber());
+                }
                 break;
+            }
             case 6:
-                // doublyLinkedList.display();
+                doublyLinkedList.display();
                 break;
         }
     }
