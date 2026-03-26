@@ -10,12 +10,12 @@ private:
     // Instancje struktury danych
     DynamicArray array;
     SinglyLinkedList singlyList;
-    DoublyLinkedList doublylist; // Do odkomentowania po zrobieniu struktury listy dwukierunkowej
+    DoublyLinkedList doublyLinkedList;
 
     // Metody pomocnicze dla podmenu
     void menuArray();
     void menuSinglyList();
-    void menuDoublyList();
+    void menuDoublyLinkedList();
 
 public:
     void displayMainMenu(); // Główne menu wyboru struktury

@@ -17,7 +17,7 @@ void Menu::displayMainMenu() {
         switch (choice) {
             case 1: menuArray(); break;
             case 2: menuSinglyList(); break;
-            case 3: menuDoublyList(); break;
+            case 3: menuDoublyLinkedList(); break;
             case 0: std::cout << "Zamykanie programu..." << std::endl;
             default: std::cout << "Bledny wybor!" << std::endl;
         }
@@ -160,7 +160,7 @@ void Menu::menuSinglyList() {
 }
 
 // Podmenu dla Listy Dwukierunkowej 
-void Menu::menuDoublyList() {
+void Menu::menuDoublyLinkedList() {
     int choice = -1;
     int value, index, subChoice;
     std::string fileName;
@@ -181,35 +181,35 @@ void Menu::menuDoublyList() {
             case 1:
                 std::cout << "Podaj nazwe pliku: ";
                 std::cin >> fileName;
-                // doublylist.clear();      // Obowiazkowe czysczenie przed wczytaniem
+                // doublyLinkedList.clear();      // Obowiazkowe czysczenie przed wczytaniem
                 break;
             case 2:
                 std::cout << "1.Poczatek, 2.Koniec, 3.Losowe miejsce: ";
                 std::cin >> subChoice;
-                if (subChoice == 1) doublylist.removeStart();
-                else if (subChoice == 2) doublylist.removeEnd();
+                if (subChoice == 1) doublyLinkedList.removeStart();
+                else if (subChoice == 2) doublyLinkedList.removeEnd();
                 else { 
                     std::cout << "Podaj indeks: "; 
                     std::cin >> index;
-                    doublylist.removeAt(index);
+                    doublyLinkedList.removeAt(index);
                 }
                 break;
             case 3:
                 std::cout << "Wartosc: "; std::cin >> value;
                 std::cout << "1.Poczatek, 2.Koniec, 3.Losowe miejsce: ";
                 std::cin >> subChoice;
-                if (subChoice == 1) doublylist.addStart(value);
-                else if (subChoice == 2) doublylist.addEnd(value);
+                if (subChoice == 1) doublyLinkedList.addStart(value);
+                else if (subChoice == 2) doublyLinkedList.addEnd(value);
                 else {
                     std::cout << "Podaj indeks: ";
                     std::cin >> index;
-                    doublylist.addAt(index, value);
+                    doublyLinkedList.addAt(index, value);
                 }
                 break;
             case 4:
                 std::cout << "Szukana wartosc: "; 
                 std::cin >> value;
-                // index = doublylist.find(value);
+                // index = doublyLinkedList.find(value);
                 if (index != -1) std::cout << "Znaleziono na indeksie: " << index << std::endl;
                 else std::cout << "Nie znaleziono!" << std::endl;
                 break;        
@@ -217,10 +217,10 @@ void Menu::menuDoublyList() {
                 int size;
                 std::cout << "Podaj wielkosc struktury: "; 
                 std::cin >> size;
-                // doublylist.clear();
+                // doublyLinkedList.clear();
                 break;
             case 6:
-                // doublylist.display();
+                // doublyLinkedList.display();
                 break;
         }
     }
