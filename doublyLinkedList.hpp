@@ -9,6 +9,8 @@ class DoublyLinkedList {
     int size;
 
 public:
+    DoublyLinkedList();
+    ~DoublyLinkedList();
     void addStart(int value);
     void addEnd(int value);
     void addAt(int index, int value);
