@@ -19,7 +19,7 @@ void Menu::displayMainMenu() {
             case 1: menuArray(); break;
             case 2: menuSinglyList(); break;
             case 3: menuDoublyLinkedList(); break;
-            case 0: std::cout << "Zamykanie programu..." << std::endl;
+            case 0: std::cout << "Zamykanie programu..." << std::endl; break;
             default: std::cout << "Bledny wybor!" << std::endl;
         }
     }
@@ -81,6 +81,7 @@ void Menu::menuArray() {
                 else std::cout << "Nie znaleziono!" << std::endl;
                 break;
             case 5: {
+            case 5: {
                 int size;
                 std::cout << "Podaj wielkosc struktury: "; 
                 std::cin >> size; 
@@ -89,6 +90,7 @@ void Menu::menuArray() {
                     array.addEnd(generateRandom4ByteNumber());
                 }
                 break;
+            }
             }
             case 6:
                 array.display(); 
@@ -232,9 +234,10 @@ void Menu::menuDoublyLinkedList() {
                 }
                 break;
             }
+            }
             case 6:
+                doublyLinkedList.display();
                 doublyLinkedList.display();
                 break;
         }
     }
-}
