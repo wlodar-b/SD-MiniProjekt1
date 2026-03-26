@@ -11,12 +11,16 @@ class DoublyLinkedList {
 public:
     DoublyLinkedList();
     ~DoublyLinkedList();
+    int getSize();
+    void clear();
     void addStart(int value);
     void addEnd(int value);
     void addAt(int index, int value);
     void removeStart();
     void removeEnd();
     void removeAt(int index);
+    void display();
+    int find(int value);
 };
 
 #endif

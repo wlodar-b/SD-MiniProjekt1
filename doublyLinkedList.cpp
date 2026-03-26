@@ -13,16 +13,11 @@ public:
 DoublyLinkedList::DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
 
 DoublyLinkedList::~DoublyLinkedList() {
-    Node* current = head;
-    while (current != nullptr) {
-        Node* next = current->next;
-        delete current;
-        current = next;
-    }
+    clear();
+}
 
-    head = nullptr;
-    tail = nullptr;
-    size = 0;
+int DoublyLinkedList::getSize() {
+    return size;
 }
 
 void DoublyLinkedList::addStart(int value) {
@@ -121,4 +116,38 @@ void DoublyLinkedList::removeAt(int index) {
     delete current;
     size--;
     }
+}
+void DoublyLinkedList::clear() {
+    if (size == 0) return;
+    Node* current = head;
+    while (current != nullptr) {
+        Node* next = current->next;
+        delete current;
+        current = next;
+    }
+    head = nullptr;
+    tail = nullptr;
+    size = 0;
+}
+
+void DoublyLinkedList::display() {
+    Node* current = head;
+    std::cout << "[ ";
+    while (current != nullptr) {
+        std::cout << current->value << ", ";
+        current = current->next;
+    }
+    std::cout << "]";
+    std::cout << std::endl;
+}
+int DoublyLinkedList::find(int value) {
+    if (size == 0) return -1;
+    Node* current = head;
+    int index = 0;
+    while (current != nullptr) {
+        if (current->value == value) return index;
+        current = current->next;
+        index++;
+    }
+    return -1;
 }
