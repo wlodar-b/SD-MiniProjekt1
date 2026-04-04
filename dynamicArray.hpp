@@ -13,6 +13,7 @@ class DynamicArray {
 public:
     // Konstruktor - inicjalizuje tablicę z zadanym rozmiarem początkowym
     DynamicArray();
+    DynamicArray(const DynamicArray& other);
 
     // Destruktor - zwalnia pamięć zaalokowaną dynamicznie
     ~DynamicArray();

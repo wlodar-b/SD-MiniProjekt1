@@ -10,6 +10,7 @@ class DoublyLinkedList {
 
 public:
     DoublyLinkedList();
+    DoublyLinkedList(const DoublyLinkedList& other);
     ~DoublyLinkedList();
     int getSize();
     void clear();

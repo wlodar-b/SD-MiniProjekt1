@@ -8,7 +8,17 @@ SinglyLinkedList::SinglyLinkedList() {
     size = 0;
 }
 
-// Destruktor - musi usunąć każdy węzeł po kolei
+SinglyLinkedList::SinglyLinkedList(const SinglyLinkedList& other) {
+    head = nullptr;
+    tail = nullptr;
+    size = 0;
+    Node* current = other.head;
+    while (current != nullptr) {
+        addEnd(current->value);
+        current = current->next;
+    }
+}
+
 SinglyLinkedList::~SinglyLinkedList() {
     clear();
 }

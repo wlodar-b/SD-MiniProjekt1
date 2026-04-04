@@ -4,6 +4,7 @@
 #include "dynamicArray.hpp"
 #include "singlyLinkedList.hpp"
 #include "doublyLinkedList.hpp"
+#include "utils.hpp"
 
 class Menu {
 private: 
@@ -11,6 +12,8 @@ private:
     DynamicArray array;
     SinglyLinkedList singlyList;
     DoublyLinkedList doublyLinkedList;
+    // Generator liczb losowych
+    RandomGenerator rng;
 
     // Metody pomocnicze dla podmenu
     void menuArray();

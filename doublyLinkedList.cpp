@@ -12,6 +12,16 @@ public:
 
 DoublyLinkedList::DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
 
+DoublyLinkedList::DoublyLinkedList(const DoublyLinkedList& other)
+    : head(nullptr), tail(nullptr), size(0)
+{
+    Node* current = other.head;
+    while (current != nullptr) {
+        addEnd(current->value);
+        current = current->next;
+    }
+}
+
 DoublyLinkedList::~DoublyLinkedList() {
     clear();
 }

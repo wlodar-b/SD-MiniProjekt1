@@ -8,6 +8,15 @@ DynamicArray::DynamicArray() {
     array = new int[capacity];  // Dynamiczna alokacja tablicy 
 }
 
+DynamicArray::DynamicArray(const DynamicArray& other) {
+    size = other.size;
+    capacity = other.capacity;
+    array = new int[capacity];
+    for (int i = 0; i < size; i++) {
+        array[i] = other.array[i];
+    }
+}
+
 // Destruktor: zwalnia pamięć, aby uniknąć wycieków
 DynamicArray::~DynamicArray() {
     delete[] array;             // Usunięcie tablicy z pamięci

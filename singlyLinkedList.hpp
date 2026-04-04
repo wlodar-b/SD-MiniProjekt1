@@ -19,8 +19,9 @@ class SinglyLinkedList {
         int size;       // Liczba przechowywanych elementów
 
     public:
-        SinglyLinkedList();         // konstruktor 
-        ~SinglyLinkedList();        // destruktor
+        SinglyLinkedList();
+        SinglyLinkedList(const SinglyLinkedList& other);
+        ~SinglyLinkedList();
 
         // Operacje dodawania elementu
         void addStart(int value);   // Dodawanie na początek
