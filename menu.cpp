@@ -1,6 +1,31 @@
 #include "menu.hpp"
+#include "fileManager.hpp"
 #include "timeMeasurer.hpp"
+#include <iomanip>
 #include <iostream>
+#include <vector>
+
+namespace {
+    void printMeasurements(const std::vector<std::pair<std::string, long long>>& results) {
+        for (const auto& result : results) {
+            std::cout << std::left << std::setw(18) << (result.first + ":")
+                      << result.second << " ns" << std::endl;
+        }
+    }
+
+    void saveMeasurementsToFile(
+        const std::string& structureName,
+        int structureSize,
+        int measurementCount,
+        const std::vector<std::pair<std::string, long long>>& results
+    ) {
+        if (FileManager::saveMeasurements(structureName, structureSize, measurementCount, results)) {
+            std::cout << "Wyniki zapisano do pliku pomiary.txt" << std::endl;
+        } else {
+            std::cout << "Nie udalo sie zapisac wynikow do pliku." << std::endl;
+        }
+    }
+}
 
 // Metoda wyświetlająca główne menu wyboru struktury
 void Menu::displayMainMenu() {
@@ -96,14 +121,18 @@ void Menu::menuArray() {
                 std::cin >> iloscPomiarow;
                 int polowa = array.getSize() / 2;
                 TimeMeasurer<DynamicArray> timer(array, iloscPomiarow);
+                std::vector<std::pair<std::string, long long>> results = {
+                    {"addStart", timer.measure([&](DynamicArray& k) { k.addStart(rng.generate()); })},
+                    {"addEnd", timer.measure([&](DynamicArray& k) { k.addEnd(rng.generate()); })},
+                    {"addAt(srodek)", timer.measure([&](DynamicArray& k) { k.addAt(polowa, rng.generate()); })},
+                    {"removeStart", timer.measure([&](DynamicArray& k) { k.removeStart(); })},
+                    {"removeEnd", timer.measure([&](DynamicArray& k) { k.removeEnd(); })},
+                    {"removeAt(srodek)", timer.measure([&](DynamicArray& k) { k.removeAt(polowa); })},
+                    {"find", timer.measure([&](DynamicArray& k) { k.find(rng.generate()); })}
+                };
 
-                std::cout << "addStart:         " << timer.measure([&](DynamicArray& k) { k.addStart(rng.generate()); }) << " ns" << std::endl;
-                std::cout << "addEnd:           " << timer.measure([&](DynamicArray& k) { k.addEnd(rng.generate()); }) << " ns" << std::endl;
-                std::cout << "addAt(srodek):    " << timer.measure([&](DynamicArray& k) { k.addAt(polowa, rng.generate()); }) << " ns" << std::endl;
-                std::cout << "removeStart:      " << timer.measure([&](DynamicArray& k) { k.removeStart(); }) << " ns" << std::endl;
-                std::cout << "removeEnd:        " << timer.measure([&](DynamicArray& k) { k.removeEnd(); }) << " ns" << std::endl;
-                std::cout << "removeAt(srodek): " << timer.measure([&](DynamicArray& k) { k.removeAt(polowa); }) << " ns" << std::endl;
-                std::cout << "find:             " << timer.measure([&](DynamicArray& k) { k.find(rng.generate()); }) << " ns" << std::endl;
+                printMeasurements(results);
+                saveMeasurementsToFile("Tablica dynamiczna", array.getSize(), iloscPomiarow, results);
                 break;
             }
         }
@@ -120,7 +149,7 @@ void Menu::menuSinglyList() {
         std::cout << "1. Usun element" << std::endl;
         std::cout << "2. Dodaj element" << std::endl;
         std::cout << "3. Znajdz element" << std::endl;
-        std::cout << "4. Utwórz losowo" << std::endl;
+        std::cout << "4. Utworz losowo" << std::endl;
         std::cout << "5. Wyswietl" << std::endl;
         std::cout << "6. Pomiar czasu" << std::endl;
         std::cout << "0. Powrot" << std::endl;
@@ -181,14 +210,18 @@ void Menu::menuSinglyList() {
                 std::cin >> iloscPomiarow;
                 int polowa = singlyList.getSize() / 2;
                 TimeMeasurer<SinglyLinkedList> timer(singlyList, iloscPomiarow);
+                std::vector<std::pair<std::string, long long>> results = {
+                    {"addStart", timer.measure([&](SinglyLinkedList& k) { k.addStart(rng.generate()); })},
+                    {"addEnd", timer.measure([&](SinglyLinkedList& k) { k.addEnd(rng.generate()); })},
+                    {"addAt(srodek)", timer.measure([&](SinglyLinkedList& k) { k.addAt(polowa, rng.generate()); })},
+                    {"removeStart", timer.measure([&](SinglyLinkedList& k) { k.removeStart(); })},
+                    {"removeEnd", timer.measure([&](SinglyLinkedList& k) { k.removeEnd(); })},
+                    {"removeAt(srodek)", timer.measure([&](SinglyLinkedList& k) { k.removeAt(polowa); })},
+                    {"find", timer.measure([&](SinglyLinkedList& k) { k.find(rng.generate()); })}
+                };
 
-                std::cout << "addStart:         " << timer.measure([&](SinglyLinkedList& k) { k.addStart(rng.generate()); }) << " ns" << std::endl;
-                std::cout << "addEnd:           " << timer.measure([&](SinglyLinkedList& k) { k.addEnd(rng.generate()); }) << " ns" << std::endl;
-                std::cout << "addAt(srodek):    " << timer.measure([&](SinglyLinkedList& k) { k.addAt(polowa, rng.generate()); }) << " ns" << std::endl;
-                std::cout << "removeStart:      " << timer.measure([&](SinglyLinkedList& k) { k.removeStart(); }) << " ns" << std::endl;
-                std::cout << "removeEnd:        " << timer.measure([&](SinglyLinkedList& k) { k.removeEnd(); }) << " ns" << std::endl;
-                std::cout << "removeAt(srodek): " << timer.measure([&](SinglyLinkedList& k) { k.removeAt(polowa); }) << " ns" << std::endl;
-                std::cout << "find:             " << timer.measure([&](SinglyLinkedList& k) { k.find(rng.generate()); }) << " ns" << std::endl;
+                printMeasurements(results);
+                saveMeasurementsToFile("Lista jednokierunkowa", singlyList.getSize(), iloscPomiarow, results);
                 break;
             }
         }
@@ -205,7 +238,7 @@ void Menu::menuDoublyLinkedList() {
         std::cout << "1. Usun element" << std::endl;
         std::cout << "2. Dodaj element" << std::endl;
         std::cout << "3. Znajdz element" << std::endl;
-        std::cout << "4. Utwórz losowo" << std::endl;
+        std::cout << "4. Utworz losowo" << std::endl;
         std::cout << "5. Wyswietl" << std::endl;
         std::cout << "6. Pomiar czasu" << std::endl;
         std::cout << "0. Powrot" << std::endl;
@@ -267,14 +300,18 @@ void Menu::menuDoublyLinkedList() {
                 std::cin >> iloscPomiarow;
                 int polowa = doublyLinkedList.getSize() / 2;
                 TimeMeasurer<DoublyLinkedList> timer(doublyLinkedList, iloscPomiarow);
+                std::vector<std::pair<std::string, long long>> results = {
+                    {"addStart", timer.measure([&](DoublyLinkedList& k) { k.addStart(rng.generate()); })},
+                    {"addEnd", timer.measure([&](DoublyLinkedList& k) { k.addEnd(rng.generate()); })},
+                    {"addAt(srodek)", timer.measure([&](DoublyLinkedList& k) { k.addAt(polowa, rng.generate()); })},
+                    {"removeStart", timer.measure([&](DoublyLinkedList& k) { k.removeStart(); })},
+                    {"removeEnd", timer.measure([&](DoublyLinkedList& k) { k.removeEnd(); })},
+                    {"removeAt(srodek)", timer.measure([&](DoublyLinkedList& k) { k.removeAt(polowa); })},
+                    {"find", timer.measure([&](DoublyLinkedList& k) { k.find(rng.generate()); })}
+                };
 
-                std::cout << "addStart:         " << timer.measure([&](DoublyLinkedList& k) { k.addStart(rng.generate()); }) << " ns" << std::endl;
-                std::cout << "addEnd:           " << timer.measure([&](DoublyLinkedList& k) { k.addEnd(rng.generate()); }) << " ns" << std::endl;
-                std::cout << "addAt(srodek):    " << timer.measure([&](DoublyLinkedList& k) { k.addAt(polowa, rng.generate()); }) << " ns" << std::endl;
-                std::cout << "removeStart:      " << timer.measure([&](DoublyLinkedList& k) { k.removeStart(); }) << " ns" << std::endl;
-                std::cout << "removeEnd:        " << timer.measure([&](DoublyLinkedList& k) { k.removeEnd(); }) << " ns" << std::endl;
-                std::cout << "removeAt(srodek): " << timer.measure([&](DoublyLinkedList& k) { k.removeAt(polowa); }) << " ns" << std::endl;
-                std::cout << "find:             " << timer.measure([&](DoublyLinkedList& k) { k.find(rng.generate()); }) << " ns" << std::endl;
+                printMeasurements(results);
+                saveMeasurementsToFile("Lista dwukierunkowa", doublyLinkedList.getSize(), iloscPomiarow, results);
                 break;
             }
         }

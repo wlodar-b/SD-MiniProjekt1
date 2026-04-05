@@ -13,12 +13,13 @@ class TimeMeasurer {
 public:
     TimeMeasurer(T& original, int count) : original(original), count(count) {}
 
-    int measure(std::function<void(T&)> operation) {
+    long long measure(std::function<void(T&)> operation) {
         std::vector<T> copies;
+        copies.reserve(count);
         for (int i = 0; i < count; i++) {
             copies.push_back(original);
         }
-        int total = 0;
+        long long total = 0;
         for (int i = 0; i < count; i++) {
             auto start = std::chrono::steady_clock::now();
             operation(copies[i]);
