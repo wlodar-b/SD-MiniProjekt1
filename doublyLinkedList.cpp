@@ -1,17 +1,20 @@
 #include <iostream>
 #include "doublyLinkedList.hpp"
 
+// wezel listy - przechowuje wartosc i wskazniki na sasiadow
 class Node {
 public:
-    int value;
-    Node* next;
-    Node* prev;
+    int value;    // wartosc przechowywana w wezle
+    Node* next;   // wskaznik na nastepny wezel
+    Node* prev;   // wskaznik na poprzedni wezel
 
     Node(int val) : value(val), next(nullptr), prev(nullptr) {}
 };
 
+// Konstruktor domyslny - tworzy pusta liste 
 DoublyLinkedList::DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
 
+// Konstruktor kopiujacy - tworzy nowa liste bedaca kopia innej listy
 DoublyLinkedList::DoublyLinkedList(const DoublyLinkedList& other)
     : head(nullptr), tail(nullptr), size(0)
 {
@@ -22,16 +25,19 @@ DoublyLinkedList::DoublyLinkedList(const DoublyLinkedList& other)
     }
 }
 
+// Destruktor - zwalnia pamiec wszystkich wezlow 
 DoublyLinkedList::~DoublyLinkedList() {
     clear();
 }
 
+// zwraca liczbe elementow
 int DoublyLinkedList::getSize() {
     return size;
 }
 
+// Dodaje nowy element na poczatek listy
 void DoublyLinkedList::addStart(int value) {
-    Node* newNode = new Node(value);
+    Node* newNode = new Node(value);  // tworzymy nowy wezel
     if (head == nullptr) {
         head = newNode;
         tail = newNode;
@@ -43,19 +49,21 @@ void DoublyLinkedList::addStart(int value) {
     size++;
 }
 
+// dodaje element na koniec 
 void DoublyLinkedList::addEnd(int value) {
     Node* newNode = new Node(value);
     if (tail == nullptr) {
         head = newNode;
         tail = newNode;
     } else {
-        newNode->prev = tail;
-        tail->next = newNode;
-        tail = newNode;
+        newNode->prev = tail;   
+        tail->next = newNode;   
+        tail = newNode;         
     }
     size++;
 }
 
+// dodaje element na podana pozycje 
 void DoublyLinkedList::addAt(int index, int value) {
     if (index < 0 || index > size) return;
 
@@ -69,6 +77,7 @@ void DoublyLinkedList::addAt(int index, int value) {
         for (int i = 0; i < index; i++) {
             current = current->next;
         }
+        // wstawiamy nowy wezel miedzy current->prev a current
         Node* a = current->prev;
         a->next = newNode;
         newNode->prev = a;
@@ -78,6 +87,7 @@ void DoublyLinkedList::addAt(int index, int value) {
     }
 }
 
+// usuwa pierwszy element - O(1)
 void DoublyLinkedList::removeStart() {
     if (head == nullptr) return;
 
@@ -94,6 +104,7 @@ void DoublyLinkedList::removeStart() {
     size--;
 }
 
+// usuwa ostatni element - O(1)
 void DoublyLinkedList::removeEnd() {
     if (tail == nullptr) return;
 
@@ -110,23 +121,27 @@ void DoublyLinkedList::removeEnd() {
     size--;
 }
 
+// usuwa element z podanej pozycji - O(n)
 void DoublyLinkedList::removeAt(int index) {
     if (index < 0 || index >= size) return;
     if (index == size - 1) removeEnd();
     else if (index == 0) removeStart();
     else {
-    Node* current = head;
-    for (int i = 0; i < index; i++) {
-        current = current->next;
-    }
-    Node* a = current->prev;
-    Node* b = current->next;
-    a->next = b;
-    b->prev = a;
-    delete current;
-    size--;
+        Node* current = head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+        // laczmy sasiadow ze soba, pomijajac usuwany wezel
+        Node* a = current->prev;
+        Node* b = current->next;
+        a->next = b;
+        b->prev = a;
+        delete current;
+        size--;
     }
 }
+
+// usuwa wszystkie elementy i zwalnia pamiec
 void DoublyLinkedList::clear() {
     if (size == 0) return;
     Node* current = head;
@@ -140,6 +155,7 @@ void DoublyLinkedList::clear() {
     size = 0;
 }
 
+// wypisuje zawartosc listy
 void DoublyLinkedList::display() {
     Node* current = head;
     std::cout << "[ ";
@@ -150,6 +166,8 @@ void DoublyLinkedList::display() {
     std::cout << "]";
     std::cout << std::endl;
 }
+
+// szuka wartosci i zwraca jej indeks, lub -1 jesli nie znaleziono - O(n)
 int DoublyLinkedList::find(int value) {
     if (size == 0) return -1;
     Node* current = head;

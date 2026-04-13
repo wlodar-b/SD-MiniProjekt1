@@ -6,6 +6,7 @@
 #include <vector>
 
 namespace {
+    // wypisuje wyniki pomiarow na ekran
     void printMeasurements(const std::vector<std::pair<std::string, long long>>& results) {
         for (const auto& result : results) {
             std::cout << std::left << std::setw(18) << (result.first + ":")
@@ -13,6 +14,7 @@ namespace {
         }
     }
 
+    // zapisuje wyniki pomiarow do pliku
     void saveMeasurementsToFile(
         const std::string& structureName,
         int structureSize,
@@ -27,7 +29,7 @@ namespace {
     }
 }
 
-// Metoda wyświetlająca główne menu wyboru struktury
+// menu glowne - wybor struktury danych
 void Menu::displayMainMenu() {
     int choice = -1;
     while (choice != 0) {
@@ -49,7 +51,7 @@ void Menu::displayMainMenu() {
     }
 }
 
-// Podmenu dla Tablicy Dynamicznej
+// podmenu tablicy dynamicznej
 void Menu::menuArray() {
     int choice = -1;
     int value, index, subChoice;
@@ -67,6 +69,7 @@ void Menu::menuArray() {
         std::cin >> choice;
 
         switch (choice) {
+            // usuwanie elementu z wybranej pozycji
             case 1:
                 std::cout << "1.Poczatek, 2.Koniec, 3.Losowe miejsce: ";
                 std::cin >> subChoice;
@@ -78,6 +81,7 @@ void Menu::menuArray() {
                     array.removeAt(index);
                 }
                 break;
+            // dodawanie elementu na wybrana pozycje
             case 2:
                 std::cout << "Wartosc: "; std::cin >> value;
                 std::cout << "1.Poczatek, 2.Koniec, 3.Losowe miejsce: ";
@@ -90,6 +94,7 @@ void Menu::menuArray() {
                     array.addAt(index, value);
                 }
                 break;
+            // wyszukiwanie wartosci
             case 3:
                 std::cout << "Szukana wartosc: "; 
                 std::cin >> value;
@@ -97,6 +102,7 @@ void Menu::menuArray() {
                 if (index != -1) std::cout << "Znaleziono na indeksie: " << index << std::endl;
                 else std::cout << "Nie znaleziono!" << std::endl;
                 break;
+            // wypelnienie struktury losowymi danymi
             case 4: {
                 int size;
                 std::cout << "Podaj wielkosc struktury: "; 
@@ -108,9 +114,11 @@ void Menu::menuArray() {
                 }
                 break;
             }
+            // wyswietlenie zawartosci
             case 5:
                 array.display(); 
                 break;
+            // pomiar czasu wszystkich operacji
             case 6: {
                 if (array.getSize() == 0) {
                     std::cout << "Najpierw utworz strukture!" << std::endl;
@@ -130,7 +138,6 @@ void Menu::menuArray() {
                     {"removeAt(srodek)", timer.measure([&](DynamicArray& k) { k.removeAt(polowa); })},
                     {"find", timer.measure([&](DynamicArray& k) { k.find(rng.generate()); })}
                 };
-
                 printMeasurements(results);
                 saveMeasurementsToFile("Tablica dynamiczna", array.getSize(), iloscPomiarow, results);
                 break;
@@ -139,7 +146,7 @@ void Menu::menuArray() {
     }
 }
 
-// Podmenu dla Listy Jednokierunkowej
+// podmenu listy jednokierunkowej
 void Menu::menuSinglyList() {
     int choice = -1;
     int value, index, subChoice;
@@ -200,6 +207,7 @@ void Menu::menuSinglyList() {
             case 5:
                 singlyList.display();
                 break;
+            // pomiar czasu wszystkich operacji
             case 6: {
                 if (singlyList.getSize() == 0) {
                     std::cout << "Najpierw utworz strukture!" << std::endl;
@@ -219,7 +227,6 @@ void Menu::menuSinglyList() {
                     {"removeAt(srodek)", timer.measure([&](SinglyLinkedList& k) { k.removeAt(polowa); })},
                     {"find", timer.measure([&](SinglyLinkedList& k) { k.find(rng.generate()); })}
                 };
-
                 printMeasurements(results);
                 saveMeasurementsToFile("Lista jednokierunkowa", singlyList.getSize(), iloscPomiarow, results);
                 break;
@@ -228,7 +235,7 @@ void Menu::menuSinglyList() {
     }
 }
 
-// Podmenu dla Listy Dwukierunkowej 
+// podmenu listy dwukierunkowej
 void Menu::menuDoublyLinkedList() {
     int choice = -1;
     int value, index, subChoice;
@@ -290,6 +297,7 @@ void Menu::menuDoublyLinkedList() {
             case 5:
                 doublyLinkedList.display();
                 break;
+            // pomiar czasu wszystkich operacji
             case 6: {
                 if (doublyLinkedList.getSize() == 0) {
                     std::cout << "Najpierw utworz strukture!" << std::endl;
@@ -309,7 +317,6 @@ void Menu::menuDoublyLinkedList() {
                     {"removeAt(srodek)", timer.measure([&](DoublyLinkedList& k) { k.removeAt(polowa); })},
                     {"find", timer.measure([&](DoublyLinkedList& k) { k.find(rng.generate()); })}
                 };
-
                 printMeasurements(results);
                 saveMeasurementsToFile("Lista dwukierunkowa", doublyLinkedList.getSize(), iloscPomiarow, results);
                 break;

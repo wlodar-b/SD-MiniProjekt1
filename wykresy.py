@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-# Wczytanie pliku z pomiarami
+# wczytanie pliku z wynikami pomiarow
 try:
     with open('pomiary.txt', 'r') as f:
         content = f.read()
@@ -10,7 +10,7 @@ except FileNotFoundError:
     print("Brak pliku pomiary.txt w folderze!")
     exit()
 
-# Parsowanie danych
+# parsowanie danych - kazdy blok to jeden pomiar (struktura + rozmiar + czasy operacji)
 blocks = content.split('========================================')
 data = []
 
@@ -22,7 +22,6 @@ for block in blocks:
     struktura = lines[0].split(': ')[1]
     rozmiar = int(lines[1].split(': ')[1])
     
-    # Wyciąganie operacji (od 3 linijki w dół)
     for line in lines[3:]:
         if ': ' in line:
             op, time_str = line.split(': ')
@@ -37,7 +36,7 @@ operacje = df['Operacja'].unique()
 
 print("Generowanie wykresów...")
 
-# Generowanie osobnego wykresu dla każdej operacji
+# osobny wykres dla kazdej operacji - porownanie struktur danych
 for op in operacje:
     df_op = df[df['Operacja'] == op]
     
@@ -54,10 +53,7 @@ for op in operacje:
     plt.legend(title="Struktura danych")
     plt.grid(True, linestyle='--', alpha=0.7)
     
-    # Prowadząca radzi: Jeśli widać, że punkty leżą na sobie z powodu skali (np. przy addStart)
-    # plt.yscale('log') # Odkomentuj tę linię, jeśli dany wykres jest nieczytelny w skali liniowej
-    
-    # Zapis do pliku .png
+    # zapis wykresu do pliku png
     safe_op_name = op.replace('(', '_').replace(')', '')
     plt.savefig(f'wykresy/{safe_op_name}.png', dpi=300, bbox_inches='tight')
     plt.close()

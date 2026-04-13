@@ -1,13 +1,14 @@
 #include "dynamicArray.hpp"
 #include <iostream>
 
-// Konstruktor: inicjalizuje tablicę z początkowym rozmiarem (np. 1)
+// tworzy pusta tablice o pojemnosci 1
 DynamicArray::DynamicArray() {
-    size = 0;                   // Na początku struktura jest pusta
-    capacity =1;                // Początkowa pojemność
-    array = new int[capacity];  // Dynamiczna alokacja tablicy 
+    size = 0;
+    capacity = 1;
+    array = new int[capacity];
 }
 
+// kopiuje wszystkie elementy z innej tablicy 
 DynamicArray::DynamicArray(const DynamicArray& other) {
     size = other.size;
     capacity = other.capacity;
@@ -17,12 +18,12 @@ DynamicArray::DynamicArray(const DynamicArray& other) {
     }
 }
 
-// Destruktor: zwalnia pamięć, aby uniknąć wycieków
+// zwalnia pamiec tablicy
 DynamicArray::~DynamicArray() {
-    delete[] array;             // Usunięcie tablicy z pamięci
+    delete[] array;
 }
 
-// Prywatna metoda resize: kluczowa dla wydajności ArrayList
+// podwaja pojemnosc i kopiuje elementy do nowej tablicy
 void DynamicArray::resize() {
     capacity *= 2;              // Zwiększamy pojemność dwukrotnie
     int* newArray = new int[capacity]; // Alokacja nowej, większej przestrzeni
@@ -36,16 +37,16 @@ void DynamicArray::resize() {
     array = newArray;           // Przypisanie wskaźnika do nowej tablicy
 }
 
-// Dodawanie na końcu: Operacja 0(1) amortyzowana
+// Dodawanie na końcu
 void DynamicArray::addEnd(int value) {
     if (size == capacity) {
         resize();               // Jeśli brak miejsca, zwiększamy tablicę
     }   
-    array[size] = value;        // Wstawienie elementyu na koniec
-    size++;                     // Inkrementacja licznika elementów
+    array[size] = value;        // Wstawienie elementu na koniec
+    size++;                    
 }
 
-// Dodawanie na początku: Wymaga przesunięcia wszystkich elementów O(n)
+// Dodawanie na początku
 void DynamicArray::addStart(int value) {
     if (size == capacity) {
         resize();
@@ -58,15 +59,13 @@ void DynamicArray::addStart(int value) {
     size++;
 }
 
-// Dodawanie w dowolnym miejscu (losowa pozycja): O(n) 
+// dodaje element na podana pozycje, przesuwa reszte w prawo
 void DynamicArray::addAt(int index, int value) {
-    // Sprawdzenie, czy indeks jest poprawny
+    // Sprawdzenie czy indeks jest poprawny
     if (index < 0 || index > size) {
         std::cout << "Bledny indeks!" << std::endl;
         return;
     }
-
-    // Jeśli tablica jest pełna, zwiększamy ją dwukrotnie
     if (size == capacity) {
         resize();
     }
@@ -77,23 +76,22 @@ void DynamicArray::addAt(int index, int value) {
     }
 
     array[index] = value; // Wstawienie nowej wartości
-    size++;                      // Zwiększenie licznika elementów    
+    size++; 
 }
 
-// Usuwanie z początku: O(n)
+// usuwa pierwszy element, przesuwa reszte w lewo 
 void DynamicArray::removeStart() {
     if (size > 0) {
         // Przesunięcie wszystkich elementów w lewo o jedną pozycję
         for (int i = 0; i < size; i++) {
             array[i] = array[i +1];
         }
-        size--;                 // Zmniejszenie rozmiaru
+        size--;
     }
 }
 
-// Usuwanie z dowolnego miejsca (losowa pozycja): O(n)
+// usuwa element z podanej pozycji, przesuwa reste w lewo
 void DynamicArray::removeAt(int index) {
-    // Sprawdzenie poprawności indeksu
     if (index < 0 || index >= size) {
         std::cout << "Bledny indeks!" << std::endl;
         return;
@@ -103,10 +101,10 @@ void DynamicArray::removeAt(int index) {
     for (int i = index; i < size - 1; i++) {
         array[i] = array[i + 1];
     }
-    size--;                 // Zmniejszenie rozmiaru
+    size--;
 }
 
-// Metoda czyszcząca strukturę: wymagana przy opcji "zbuduj z pliku"
+// usuwa wszystko i resetuje tablice do stanu poczatkowego
 void DynamicArray::clear() {
     delete[] array;             // Zwolnienie pamięci
     size = 0;                   // Resetowanie liczników
@@ -114,24 +112,24 @@ void DynamicArray::clear() {
     array = new int[capacity];  // Alokacja nowej startowej tablicy
 }
 
-// Usuwanie z końca: Operacja O(1)
+// usuwa ostatni element - O(1)
 void DynamicArray::removeEnd() {
     if (size > 0) {
-        size--;                 // Po prostu zmniejszamy licznik (element fizycznie zostaje, ale jest niedostępny)
+        size--;
     }
 }
 
-// Wyszukiwanie: Generujemy liczbę i szukamy jej w strukturze
+// szuka wartosci i zwraca jej indeks, lub -1 jesli nie znaleziono - O(n)
 int DynamicArray::find(int value) {
     for (int i = 0; i < size; i++) {
         if (array[i] == value) {
-            return i;           // Zwraca indeks znalezienia
+            return i;
         }
     }
-    return -1;                  // Nie znaleziono
+    return -1;
 }
 
-// Wyśwoetlanie: Na potrzeby menu i prezentacji
+// wypisuje wszystkie elementy tablicy
 void DynamicArray::display() {
     if (size == 0) {
         std::cout << "Tablica jest pusta." << std::endl;
@@ -143,6 +141,7 @@ void DynamicArray::display() {
     std::cout << std::endl;
 }
 
+// zwraca liczbe elementow
 int DynamicArray::getSize() {
     return size;
 }

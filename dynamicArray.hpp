@@ -1,42 +1,30 @@
 #ifndef DYNAMICARRAY_HPP
 #define DYNAMICARRAY_HPP
 
-// Klasa reprezentująca tablicę dynamiczną 
 class DynamicArray {
-    int* array;      // Wskaźniki na tablicę utworzoną dynamicznie
-    int size;        // Liczba aktualnie przechowywanych elementów
-    int capacity;    // Całkowity zarezerwowany rozmiar tablicy 
-    
-    // Prywatna metoda pomocnicza do zmiany rozmiaru tablicy (dwuktrotne zwiększanie)
-    void resize();
+    int* array;      // wskaznik na tablice w pamieci
+    int size;        // ile elementow aktualnie przechowujemy
+    int capacity;    // ile elementow moze pomiescic tablica bez rozszerzania
+
+    void resize();   // podwaja pojemnosc tablicy (prywatna)
 
 public:
-    // Konstruktor - inicjalizuje tablicę z zadanym rozmiarem początkowym
-    DynamicArray();
-    DynamicArray(const DynamicArray& other);
+    DynamicArray();                          // tworzy pusta tablice
+    DynamicArray(const DynamicArray& other); // kopiuje inna tablice (deep copy)
+    ~DynamicArray();                         // zwalnia pamiec
 
-    // Destruktor - zwalnia pamięć zaalokowaną dynamicznie
-    ~DynamicArray();
+    void addStart(int value);                // dodaje element na poczatek
+    void addEnd(int value);                  // dodaje element na koniec
+    void addAt(int index, int value);        // dodaje element na podana pozycje
 
-    // Operacje usuwania elementy na różnych pozycjach 
-    void removeStart();         // Usuwanie z początku
-    void removeEnd();           // Usuwanie z końca
-    void removeAt(int index);   // Usuwanie z losowego miejsca
+    void removeStart();                      // usuwa pierwszy element
+    void removeEnd();                        // usuwa ostatni element
+    void removeAt(int index);                // usuwa element z podanej pozycji
 
-    // Operacje dodawania elementy na różnych pozycjach 
-    void addStart(int value);            // Dodawanie na początku
-    void addEnd(int value);              // Dodawanie na końca
-    void addAt(int index, int value);      // Dodawanie w losowym miejscu
-
-    // Operacja wyszukiwania wartości w strukturze
-    int find(int value);        // Zwraca indeks znalezionego elementu -1 
-
-    // Metody pomocnicze wymagane przez wytyczne menu
-    void display();             // Wyświetla zawartość tablicy
-    void clear();               // Czyści strukture przed wczytaniem nowych danych
-
-    // Gettery potrzebne do badań i sprawozdania
-    int getSize();              // Zwraca aktualną ilość elementów
+    int find(int value);                     // szuka wartosci, zwraca indeks lub -1
+    void display();                          // wypisuje zawartosc tablicy
+    void clear();                            // usuwa wszystko i resetuje tablice
+    int getSize();                           // zwraca liczbe elementow
 };
 
-#endif // DYNAMICARRAY_HPP
+#endif

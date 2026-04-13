@@ -1,13 +1,14 @@
 #include "singlyLinkedList.hpp"
 #include <iostream>
 
-// Inicjalizacja pustej listy
+// tworzy pusta liste
 SinglyLinkedList::SinglyLinkedList() {
     head = nullptr;
     tail = nullptr;
     size = 0;
 }
 
+// kopiuje wszystkie elementy z innej listy 
 SinglyLinkedList::SinglyLinkedList(const SinglyLinkedList& other) {
     head = nullptr;
     tail = nullptr;
@@ -19,13 +20,14 @@ SinglyLinkedList::SinglyLinkedList(const SinglyLinkedList& other) {
     }
 }
 
+// zwalnia pamiec wszystkich wezlow
 SinglyLinkedList::~SinglyLinkedList() {
     clear();
 }
 
-// Dodawanie na początek: O(1)
+// dodaje element na poczatek - O(1)
 void SinglyLinkedList::addStart(int value) {
-    Node* newNode = new Node(value);    // Dynamiczna alokacja węzła
+    Node* newNode = new Node(value);
     if (head == nullptr) {
         head = tail = newNode;
     } else {
@@ -35,9 +37,9 @@ void SinglyLinkedList::addStart(int value) {
     size++;
 }
 
-// Dodawanie na koniec: O(1) dzięki wskaźnikowi tail
+// dodaje element na koniec - O(1) dzieki wskaznikowi tail
 void SinglyLinkedList::addEnd(int value) {
-    Node* newNode = new Node(value);    
+    Node* newNode = new Node(value);
     if (tail == nullptr) {
         head = tail = newNode;
     } else {
@@ -47,19 +49,19 @@ void SinglyLinkedList::addEnd(int value) {
     size++;
 }
 
-// Usuwanie z początku: O(1) 
+// usuwa pierwszy element - O(1)
 void SinglyLinkedList::removeStart() {
     if (head == nullptr) return;
 
     Node* temp = head;
     head = head->next;
-    delete temp;    // Zwolnienie pamięci
+    delete temp;
     size--;
 
-    if (head == nullptr) tail = nullptr;    // Lista stała się pusta
+    if (head == nullptr) tail = nullptr;
 }
 
-// Usuwanie z końca: O(n) - musimy znaleźć przedostatni element
+// usuwa ostatni element - O(n), bo trzeba znalezc przedostatni wezel
 void SinglyLinkedList::removeEnd() {
     if (head == nullptr) return;
 
@@ -68,7 +70,7 @@ void SinglyLinkedList::removeEnd() {
         head = tail = nullptr;
     } else {
         Node* current = head;
-        while (current->next != tail) { // Przejście do przedostatniego elementu 
+        while (current->next != tail) {
             current = current->next;
         }
         delete tail;
@@ -78,7 +80,7 @@ void SinglyLinkedList::removeEnd() {
     size--;
 }
 
-// Wyszukiwanie wartości: O(n)
+// szuka wartosci i zwraca jej indeks, lub -1 jesli nie znaleziono - O(n)
 int SinglyLinkedList::find(int value) {
     Node* current = head;
     int index = 0;
@@ -90,13 +92,14 @@ int SinglyLinkedList::find(int value) {
     return -1;
 }
 
-// Czyszczenie struktury - wymagane przed nowym wczytaniem
+// usuwa wszystkie elementy i zwalnia pamiec
 void SinglyLinkedList::clear() {
     while (head != nullptr) {
         removeStart();
     }
 }
 
+// wypisuje zawartosc listy
 void SinglyLinkedList::display() {
     Node* current = head;
     while (current != nullptr) {
@@ -106,19 +109,18 @@ void SinglyLinkedList::display() {
     std::cout << std::endl;
 }
 
+// zwraca liczbe elementow
 int SinglyLinkedList::getSize() {
     return size;
 }
 
-// Dodawanie w losowym miejscu (po indeksie): O(n)
+// dodaje element na podana pozycje - O(n)
 void SinglyLinkedList::addAt(int index, int value) {
-    // Sprawdzenie poprawności indeksu
     if (index < 0 || index > size) {
         std::cout << "Bledny indeks!" << std::endl;
         return;
     }
 
-    // Wykorzystanie istniejących metod dla skrajnych przypadków
     if (index == 0) {
         addStart(value);
     } else if (index == size) {
@@ -126,22 +128,19 @@ void SinglyLinkedList::addAt(int index, int value) {
     } else {
         Node* newNode = new Node(value);
         Node* current = head;
-
-        // Dotarcie do elementu poprzedzającego miejsce wstawienia
+        // dochodzimy do wezla przed pozycja wstawienia
         for (int i = 0; i < index - 1; i++) {
             current = current->next;
         }
-
-        // Przepięcie wskaźników
         newNode->next = current->next;
         current->next = newNode;
         size++;
     }
 }
 
-// Usuwanie z losowego miejsca (po indeksie); O(n)
+// usuwa element z podanej pozycji - O(n)
 void SinglyLinkedList::removeAt(int index) {
-    // Sprowadzenie poprawności indeksu
+    // Sprawdzenie poprawności indeksu
     if (index < 0 || index >= size) {
         std::cout << "Bledny indeks!" << std::endl;
         return;
@@ -153,12 +152,10 @@ void SinglyLinkedList::removeAt(int index) {
         removeEnd();
     } else {
         Node* current = head;
-
-        // Znalezienie elementu przed tym, który usuwamy
-        for (int i = 0; i < index -1; i++) {
+        // dochodzimy do wezla przed usuwanym
+        for (int i = 0; i < index - 1; i++) {
             current = current->next;
         }
-
         Node* toDelete = current->next;
         current->next = toDelete->next;
         delete toDelete; // Zwolnienie pamięci

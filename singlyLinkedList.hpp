@@ -1,12 +1,11 @@
 #ifndef SINGLYLINKEDLIST_HPP
 #define SINGLYLINKEDLIST_HPP
 
-// Struktura reprezentująca pojedynczy węzeł listy
+// wezel listy - przechowuje wartosc i wskaznik na nastepny wezel
 struct Node {
-    int value;      // Właściwa wartość (4-bajtowa liczba całkowita)
-    Node* next;     // Wskaźnik na następny element (nullptr, jeśli to koniec)
+    int value;      // Właściwa wartość 
+    Node* next;     // Wskaźnik na następny element 
 
-    // Konstruktor węzła dla wygody alokacji
     Node(int val) : value(val), next(nullptr) {}
 };
 
@@ -15,31 +14,26 @@ class SinglyLinkedList {
 
     private:
         Node* head;     // pierwszy element listy
-        Node* tail;     // ostatni elemnt listy
+        Node* tail;     // ostatni element listy
         int size;       // Liczba przechowywanych elementów
 
-    public:
-        SinglyLinkedList();
-        SinglyLinkedList(const SinglyLinkedList& other);
-        ~SinglyLinkedList();
+public:
+    SinglyLinkedList();                            // tworzy pusta liste
+    SinglyLinkedList(const SinglyLinkedList& other); // kopiuje inna liste (deep copy)
+    ~SinglyLinkedList();                           // zwalnia pamiec
 
-        // Operacje dodawania elementu
-        void addStart(int value);   // Dodawanie na początek
-        void addEnd(int value);     // Dodawanie na koniec 
-        void addAt(int index, int value); // Dodawanie miejscu w losowe miejsce 
+    void addStart(int value);              // dodaje element na poczatek
+    void addEnd(int value);                // dodaje element na koniec
+    void addAt(int index, int value);      // dodaje element na podana pozycje
 
-        // Operacja usuwania elementu
-        void removeStart();         // Usuwanie z początku 
-        void removeEnd();           // Usuwanie z końca 
-        void removeAt(int index);   // Usuwanie z losowego miejsca 
+    void removeStart();                    // usuwa pierwszy element
+    void removeEnd();                      // usuwa ostatni element
+    void removeAt(int index);              // usuwa element z podanej pozycji
 
-        // Operacja wyszukiwania
-        int find(int value);        // Zwraca indeks elementu lub (-1)
-
-        // Metody pomocnicze do menu i badań
-        void display();             // Wyświetlenie zawartości listy
-        void clear();               // Czyszczenie całej listy 
-        int getSize();              // Zwraca aktualny rozmiar n
+    int find(int value);                   // szuka wartosci, zwraca indeks lub -1
+    void display();                        // wypisuje zawartosc listy
+    void clear();                          // usuwa wszystkie elementy
+    int getSize();                         // zwraca liczbe elementow
 };
 
 #endif
